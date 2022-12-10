@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
+
+// Create a new axios instance with custom config options
+const instance = axios.create({
+  baseURL: "https://bloodhub3.herokuapp.com", // The base URL for the API
+  headers: {
+    "Access-Control-Allow-Origin": "https://chimerical-pothos-a8dbfd.netlify.app", // Allow requests from this domain
+  },
+});
+
 export default function SignUp() {
   const [first_name, set_first_name] = useState("");
   const [middle_name, set_middle_name] = useState("");
@@ -10,8 +19,8 @@ export default function SignUp() {
   const [cnic, set_CNIC] = useState("");
   const [password, set_password] = useState("");
   const [phone_num, set_phone_num] = useState("");
-  const [city, set_city] = useState("Faislabad");
-  const [blood_type, set_blood_type] = useState("A+");
+  const [city, set_city] = useState("Lahore");
+  const [blood_type, set_blood_type] = useState("B+");
   const [city_list, set_city_list] = useState([]);
   const [blood_list, set_blood_list] = useState([]);
 
@@ -22,12 +31,13 @@ export default function SignUp() {
   const [medical_condition2, set_medical_condition2] = useState("");
   const [medical_condition3, set_medical_condition3] = useState("");
 
+
   useEffect(() => {
-    axios.get("https://bloodhub3.herokuapp.com/get_cities").then((fetched_cities) => {
+    instance.get("https://bloodhub3.herokuapp.com/get_cities").then((fetched_cities) => {
       set_city_list(fetched_cities.data);
     });
 
-    axios.get("https://bloodhub3.herokuapp.com/get_blood").then((fetched_blood) => {
+    instance.get("https://bloodhub3.herokuapp.com/get_blood").then((fetched_blood) => {
       set_blood_list(fetched_blood.data);
     });
   }, []);
@@ -46,7 +56,7 @@ export default function SignUp() {
       weight != "" &&
       height != ""
     ) {
-      axios
+      instance
         .post("https://bloodhub3.herokuapp.com/signup", {
           fname: first_name,
           mname: middle_name,
