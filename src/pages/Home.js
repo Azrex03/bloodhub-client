@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 
+const instance = axios.create({
+    baseURL: "https://bloodhub3.herokuapp.com", // The base URL for the API
+    headers: {
+      "Access-Control-Allow-Origin": "https://chimerical-pothos-a8dbfd.netlify.app", // Allow requests from this domain
+    },
+  });
 
 export default function Home() {
 
@@ -16,7 +22,7 @@ export default function Home() {
         if (email !== "" && password !== "") {
             // console.log("ok")
             console.log(email,password)
-            axios.post("https://bloodhub3.herokuapp.com/login", {
+            instance.post("https://bloodhub3.herokuapp.com/login", {
                 user_email:email,
                 user_password:password
 
